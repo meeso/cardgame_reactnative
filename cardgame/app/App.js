@@ -15,7 +15,16 @@ import {
 import Heading from './Heading'
 import Input from  './Input'
 import Button from './Button'
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContext } from '@react-navigation/native';
+
+const Stack = createStackNavigator();
+
 class App extends Component {
+  static contextType = NavigationContext;
+
   constructor(){
     super()
     this.state={
@@ -64,7 +73,8 @@ class App extends Component {
     const {inputValue, inputValue2, player1} = this.state
 
     return (
-      <View style={styles.container}>
+      <NavigationContainer>
+       <View style={styles.container}>
         <Heading></Heading>
         <Input 
           inputValue = {inputValue}
@@ -78,7 +88,8 @@ class App extends Component {
         </Input>
         <Button submitTodo={this.submitTodo}></Button>
         
-      </View>
+       </View>
+      </NavigationContainer>
     )
   }
 }
