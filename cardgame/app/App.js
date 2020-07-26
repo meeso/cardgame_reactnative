@@ -21,8 +21,28 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContext } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
+function SecondPage() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Details Screen</Text>
+    </View>
+  );
+}
 
-class App extends Component {
+function App(){
+  return (
+      <NavigationContainer>
+       <Stack.Navigator initialRouteName="Games">
+         <Stack.Screen name="Main" 
+         component={Main}
+         options={{title:'CardGame'}}/>
+         <Stack.Screen name="SecondPage" component={SecondPage} />
+       </Stack.Navigator>
+      </NavigationContainer>
+  );
+}
+
+class Main  extends Component {
   static contextType = NavigationContext;
 
   constructor(){
@@ -51,7 +71,7 @@ class App extends Component {
   
     }  
   }
-  submitTodo() {
+  submitTodo(navigation) {
     if (this.state.inputValue.match(/^\s*$/)) {
       console.log('No input')
       return
@@ -67,13 +87,14 @@ class App extends Component {
     console.log('Player2: ', player2)
 
     this.setState({player1, player2}) 
+    navigation.navigate('SecondPage')
   }
   render () {
-    
+    const navigation = this.context;
+
     const {inputValue, inputValue2, player1} = this.state
 
     return (
-      <NavigationContainer>
        <View style={styles.container}>
         <Heading></Heading>
         <Input 
@@ -86,10 +107,10 @@ class App extends Component {
           inputChange={(text)=> this.inputChange(text, 2)}
           holdername='Player2 Name'>
         </Input>
-        <Button submitTodo={this.submitTodo}></Button>
+        <Button submitTodo={() => this.submitTodo(navigation)} >
+        </Button>
         
        </View>
-      </NavigationContainer>
     )
   }
 }
